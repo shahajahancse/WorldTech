@@ -18,4 +18,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('dynamic_field', 'DynamicFieldController@index');
+Route::get('dynamic_field', 'DynamicFieldController@index')->name('dynamic_field');
+Route::post('dynamic_field', 'DynamicFieldController@store')->name('dynamic_field');

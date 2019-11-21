@@ -29,25 +29,44 @@
                 <div class="text-center card-header">
                     <h3 class="card-title pt-1">Dynamic Field Add</h3>
                 </div>
-                <form name="cart">
+                <form name="cart" action="{{ route('dynamic_field')}}" method="post">
+                    @csrf
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    @if (session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
                     <table class="table table-borderless" name="cart">
                         <tbody id="add">
                             <tr name="line_items">
-                              <td ><input type="text" name="qty" value="" class="form-control input-bg" placeholder="Quantity" required=""></td>
-                              <td ><input type="text" name="price" value="" class="form-control input-bg" placeholder="Unit Price" required=""></td>
+                              <td ><input type="text" name="qty" value="{{old('qty')}}" class="form-control input-bg" placeholder="Quantity" required=""></td>
+
+                              <td ><input type="text" name="price" value="{{old('price')}}" class="form-control input-bg" placeholder="Unit Price" required=""></td>
                               <td><span class="pt-5">=</span></td>
 
-                              <td class="pl-0"><input type="text" name="item_total" value="" jAutoCalc="{qty} * {price}" class="form-control" placeholder="Total Price" readonly=""></td>
+                              <td class="pl-0"><input type="text" name="item_total" value="{{old('item_total')}}" jAutoCalc="{qty} * {price}" class="form-control" placeholder="Total Price" readonly=""></td>
 
                               <td ><i class="fa fa-plus rounded-circle input-bg button-fa" id="add_more"></i></td>
                             </tr>
                         </tbody>
                         <tr name="line_items">
                           <td colspan="3"></td>
-                          <td class="pl-0"><input type="text" name="sub_total" value="" jAutoCalc="SUM({item_total})" class="form-control"readonly=""></td>
+                          <td class="pl-0"><input type="text" name="grand_total" value="{{old('grand_total')}}" jAutoCalc="SUM({item_total})" class="form-control"readonly=""></td>
                         </tr>
                         <tr>
-                          <td colspan="2" class="pl-0"><button class="float-right btn input-bg px-4 py-2">Submit</button></td>                  
+                          <td colspan="2" class="pl-0"><button class="float-right btn input-bg px-4 py-2" type="submit">Submit</button></td>               
                         </tr>
                     </table>
                 </form>
